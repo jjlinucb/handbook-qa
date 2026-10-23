@@ -67,7 +67,7 @@ Their rankings are merged with Reciprocal Rank Fusion. RRF works on ranks, not s
 
 `eval/questions.json` holds 12 questions whose answers I checked by hand against the handbook, plus 2 it can't answer. Retrieval is scored by whether a chunk containing the answer phrase shows up in the top 6.
 
-Current result: **11/12 hit@6, MRR 0.75.**
+Current result: **retrieval 11/12 hit@6, MRR 0.75. Answers 14/14 pass.**
 
 The one miss is a good example of where retrieval falls short. "Is there a budget for meeting up with teammates in person?" should find "$1,500 quarterly travel budget for ad-hoc meetups", but that line sits in a list of perks on the Culture page. Both retrievers rank the Offsites pages higher, which are a reasonable answer to a different reading of the question. I left the miss in rather than tune the question to pass.
 

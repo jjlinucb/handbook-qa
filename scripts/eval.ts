@@ -11,6 +11,9 @@ interface Case {
   answerable?: boolean;
 }
 
+// Next.js loads .env.local for the app; scripts have to do it themselves.
+if (fs.existsSync(".env.local")) process.loadEnvFile(".env.local");
+
 const K = 6;
 const norm = (s: string) => s.replace(/\s+/g, " ").toLowerCase();
 

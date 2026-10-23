@@ -34,7 +34,9 @@ export function buildUserMessage(question: string, hits: Hit[]): string {
 
 let client: Anthropic | null = null;
 function getClient() {
-  client ??= new Anthropic();
+  // Org-level keys that span several workspaces must say which one to bill.
+  const workspace = process.env.ANTHROPIC_WORKSPACE_ID;
+  client ??= new Anthropic(workspace ? { defaultHeaders: { "anthropic-workspace-id": workspace } } : {});
   return client;
 }
 

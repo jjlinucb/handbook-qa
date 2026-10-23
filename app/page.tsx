@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { AskEvent, Source } from "@/lib/events";
 import { Answer, citedNumbers } from "./answer";
 
@@ -128,9 +128,16 @@ function TurnView({ turn }: { turn: Turn }) {
   const cited = citedNumbers(turn.answer);
   const shown = showAll || turn.status !== "done" ? turn.sources : turn.sources.filter((s) => cited.has(s.n));
   const hidden = turn.sources.length - shown.length;
+  const ref = useRef<HTMLElement>(null);
+
+  // Bring a new question into view once, when it's asked. Not on every
+  // streamed token, which would fight a user scrolling back to read.
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
 
   return (
-    <section className="turn">
+    <section className="turn" ref={ref}>
       <p className="question">{turn.question}</p>
 
       {turn.status === "searching" && <p className="muted">Searching the handbook…</p>}

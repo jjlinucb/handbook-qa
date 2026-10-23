@@ -53,7 +53,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .examples button:hover { border-color: var(--muted); }
 
-.turn { border-top: 1px solid var(--line); padding: 20px 0; }
+.turn { border-top: 1px solid var(--line); padding: 20px 0; scroll-margin-top: 16px; }
 .turn:first-child { border-top: 0; }
 .question { font-weight: 600; margin: 0 0 10px; }
 
