@@ -1,0 +1,16 @@
+[
+  { "q": "How much vacation am I required to take?", "expect": ["at least 2 weeks"] },
+  { "q": "Can I take as much time off as I want?", "expect": ["Unlimited vacation", "at least 2 weeks"] },
+  { "q": "How long is maternity leave and is it paid?", "expect": ["6 months maternity"] },
+  { "q": "Is there a budget for meeting up with teammates in person?", "expect": ["$1,500 quarterly travel"] },
+  { "q": "Will the company pay for a coworking space?", "expect": ["coworking space"] },
+  { "q": "What is the keeper test?", "expect": ["would you try to keep"] },
+  { "q": "How long do I have to exercise my stock options after I leave?", "expect": ["window of 10 years"] },
+  { "q": "How much severance do people get?", "expect": ["months' severance"] },
+  { "q": "How do I request new artwork or merch?", "expect": ["request templates"] },
+  { "q": "Is my sales bonus guaranteed when I first join?", "expect": ["guaranteed at 100%"] },
+  { "q": "What should I install before my first on-call shift?", "expect": ["Incident.io mobile app"] },
+  { "q": "How often should a manager have 1-1s with someone on probation?", "expect": ["weekly 1-1s"] },
+  { "q": "What is the dress code at the San Francisco office?", "answerable": false },
+  { "q": "Which dental insurance provider do employees in Japan get?", "answerable": false }
+]
