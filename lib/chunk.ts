@@ -56,16 +56,22 @@ function cleanLines(pages: string[]): Line[] {
 function splitArticles(lines: Line[]): Article[] {
   const articles: Article[] = [];
   let current: Article | null = null;
-  for (let i = 0; i < lines.length; i++) {
-    const next = lines[i + 1];
-    if (next && SOURCE_PATH.test(next.text)) {
-      current = { title: lines[i].text, path: next.text, lines: [] };
-      articles.push(current);
-      i++; // skip the path line
+  let body: Line[] = []; // lines since the last path line
+  for (const line of lines) {
+    if (!SOURCE_PATH.test(line.text)) {
+      body.push(line);
       continue;
     }
-    current?.lines.push(lines[i]);
+    // Every article starts on a fresh page, so its title is all the text above
+    // the path on that page. Long titles wrap onto a second line.
+    const titleLines: Line[] = [];
+    while (body.at(-1)?.page === line.page) titleLines.unshift(body.pop()!);
+    if (current) current.lines = body;
+    current = { title: titleLines.map((l) => l.text).join(" "), path: line.text, lines: [] };
+    articles.push(current);
+    body = [];
   }
+  if (current) current.lines = body;
   return articles.filter((a) => a.lines.length > 0);
 }
 
