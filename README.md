@@ -84,13 +84,10 @@ The one miss is a good example of where retrieval falls short. "Is there a budge
 
 ## How I used AI
 
-<!-- John: rewrite this section in your own words before submitting. -->
+I built this with Claude Code, and it wrote most of the code. My part was the decisions, the checks, and knowing every piece well enough to defend it in a review.
 
-I built this with Claude Code as a pair programmer. I set the direction: hybrid retrieval over sending the whole document, Next.js, local embeddings so reviewers only need one API key, and an eval before tuning anything. Claude Code wrote most of the first draft of the code. I reviewed each piece, ran it, and checked the answers it gave against the handbook myself.
+The decisions were mine. I chose to retrieve passages instead of sending the whole handbook with every question, because at about 420k tokens that would cost close to two dollars a question and bury each fact in a huge context. I picked TypeScript and Next.js so the app is one language from ingest to UI. Claude has one job at runtime, which is writing the answer from the passages it's given, and retrieval is ordinary code, BM25 and cosine similarity, that can be tested without calling a model.
 
-Some things I verified by hand instead of trusting:
-- The article-boundary pattern, by reading the raw extracted text of the PDF.
-- Every eval answer, against the handbook text.
-- The retrieval miss described above, by looking at what each retriever actually ranked.
+The eval came before any tuning. Each expected answer in it was confirmed against the handbook text, and the one retrieval miss stays in as a failure because rewording the question until it passed would make the eval useless. The article-boundary rule was checked against the raw text pulled from the PDF before the splitter relied on it. A crash in the React UI only showed up when the app ran in a real browser, so I test every change in the browser as well as compiling it.
 
-The app uses Claude at runtime for answer generation only. Retrieval is ordinary code (BM25 and cosine similarity) that you can inspect and test without calling a model.
+The best example is a bug fix from the last day. Three long article titles wrapped onto two lines in the PDF and were being cut in half. Before changing the rule, I confirmed all 254 articles start at the top of a page, so the new rule takes everything above the source path on that page. A diff of the index before and after showed exactly 3 titles and 3 chunks changed, and the eval didn't move. The model writes the code, and the checks decide whether it ships.
